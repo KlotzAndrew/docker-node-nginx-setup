@@ -1,0 +1,25 @@
+version: '2'
+services:
+  node1:
+    image: swarmcomposenodedemo_node1
+    ports:
+      - '3000'
+
+  node2:
+    image: swarmcomposenodedemo_node1
+    ports:
+      - '3000'
+
+  node3:
+    image: swarmcomposenodedemo_node1
+    ports:
+      - '3000'
+
+  nginx:
+    image: swarmcomposenodedemo_nginx 
+    ports:
+      - "80:80"
+    links:
+      - node1:node1
+      - node2:node2
+      - node3:node3
