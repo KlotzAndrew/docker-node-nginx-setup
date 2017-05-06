@@ -1,19 +1,9 @@
 version: '3.1'
 services:
-  node1:
-    image: klotzandrew/dockernodenginxsetup_node1
+  node:
+    image: klotzandrew/dockernodenginxsetup_node
     ports:
-      - '3000'
-
-  node2:
-    image: klotzandrew/dockernodenginxsetup_node1
-    ports:
-      - '3000'
-
-  node3:
-    image: klotzandrew/dockernodenginxsetup_node1
-    ports:
-      - '3000'
+      - '3000:3000'
 
   visualizer:
     image: dockersamples/visualizer
@@ -26,7 +16,5 @@ services:
     image: klotzandrew/dockernodenginxsetup_nginx
     ports:
       - "80:80"
-    links:
-      - node1:node1
-      - node2:node2
-      - node3:node3
+    depends_on:
+      - node

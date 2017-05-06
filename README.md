@@ -1,13 +1,27 @@
-### Setup
+Basic swarm setup with nginx and a web server. Nginx acts as an ingress node for the other web servers. The request is then round-robin load balanced by docker swarm to *n* internal web servers. Visualizer setup on port 8080 to see containers scaling in action.
+
+### Local setup
 
 ```bash
-# connect to docker machine
-docker-machine start default
-eval "$(docker-machine env default)"
+docker-machine create --driver virtualbox swarm-demo-manager
+```
 
+### DO Setup
+```bash
+export DOTOKEN=xxxxx # get from DO
+
+docker-machine create \
+  --driver digitalocean \
+  --digitalocean-access-token $DOTOKEN \
+  swarm-demo-manager
+```
+
+### Deploy
+```bash
+# connect to swarm manager
+eval "$(docker-machine env swarm-demo-manager)"
 # start swarm
-docker swarm init --advertise-addr 192.168.99.100
-
+docker swarm init --advertise-addr $(docker-machine ip swarm-demo-manager)
 # deploy stack
 docker stack deploy --compose-file docker-compose-production.yml swarm_demo
 ```
